@@ -135,17 +135,9 @@ namespace SnakeConsole
                     if (rand.NextDouble() < ProbMutate)
                         Children[1] = MutateGauss(0.05, Children[1]);
                     
-                    //REPOPULATION
-                    var family = new List<Tuple<double, double[]>>();
-                    family.Add(new Tuple<double,double[]>(EvalFitness(Children[0]), Children[0]));
-                    family.Add(new Tuple<double,double[]>(EvalFitness(Children[1]), Children[1]));
-                    family.Add(new Tuple<double, double[]>(Fitnesses[idxParent1], parent1));
-                    family.Add(new Tuple<double, double[]>(Fitnesses[idxParent2], parent2));
-
-                    family.Sort((a, b) => { return a.Item1.CompareTo(b.Item1); });
-
-                    NewPop[count++] = family[2].Item2;
-                    NewPop[count++] = family[3].Item2;
+                    // RE-POPULATION
+                    NewPop[count++] = Children[0];
+                    NewPop[count++] = Children[1];
 
                 }// WHILE
                 Population = (double[][])NewPop.Clone();
@@ -266,7 +258,7 @@ namespace SnakeConsole
         }// MUTATEGAUSS
 
         private double[][] Crossover(double[] Parent1, double[] Parent2)
-        {// SBX CROSSOVER - WITH A CUSTOM FIX
+        {// SBX CROSSOVER - Deb and Agrawal
             double[][] Children = new double[2][];
             Children[0] = new double[Genes];
             Children[1] = new double[Genes];
